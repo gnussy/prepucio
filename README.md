@@ -4,7 +4,8 @@
   <img src="https://raw.githubusercontent.com/gnussy/prepucio/main/assets/logo.png" width=200 />
 </p>
 <p align="center">
-  <i>Portable REPL with Embedded Plugin Utility for C++</i>
+  <i>Portable REPL with Embedded Plugin Utility for C++</i><br/>
+  <i>Powered by <b>Penis</b>®</i>
 </p>
 
 ---
