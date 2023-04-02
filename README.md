@@ -11,10 +11,20 @@
 ---
 
 # Introduction
+PREPUC.io is a portable REPL (Read-Eval-Print Loop) library with an embedded plugin utility for C++. It allows users to add custom commands to the REPL and execute them using a simple and intuitive syntax.
 
-...
+With PREPUC.io, you can create a fully customizable REPL that fits your specific needs. You can add custom commands with their own attributes and callbacks, and use them to manipulate data, run tests, or perform any other tasks you need.
 
-# Installation
+PREPUC.io is built using the GNUSSY Penis® library. It also integrates with the xmake build system, making it easy to install and use in your projects.
+
+# Key Features
+- Portable and easy to use REPL library for C++
+- Built-in plugin utility for extensibility and customization
+- Easy to install using the xmake build system
+- Powered by the Penis® programming language for efficient and reliable code execution
+
+# Getting Started
+To get started with PREPUC.io, you will need to install xmake and add the gnussy repository to your xrepo. You can then install the library using xrepo, or by adding it to your libs list if you are using xmake-binary-boilerplate.
 
 First get yourself `xmake`
 
@@ -40,6 +50,8 @@ Or by adding it to your `libs` list if you are using `xmake-binary-boilerplate`.
 -- xmake.lua
 local libs = { "prepucio" }
 ```
+
+Once installed, you can add custom commands and callbacks to your REPL using the simple and intuitive syntax provided by PREPUC.io. Check out the examples folder in the repository for more information and code snippets.
 
 # Usage
 
