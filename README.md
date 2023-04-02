@@ -12,6 +12,35 @@
 
 # Introduction
 
+...
+
+# Installation
+
+First get yourself `xmake`
+
+```sh
+curl -fsSL https://xmake.io/shget.text | bash
+```
+
+Then add the gnussy repository to your `xrepo`
+
+```bash
+xrepo add-repo gnussy https://github.com/gnussy/gnussy-repos
+```
+
+Finally install *prepucio* with
+
+```bash
+xrepo install prepucio
+```
+
+Or by adding it to your `libs` list if you are using `xmake-binary-boilerplate`.
+
+```lua
+-- xmake.lua
+local libs = { "prepucio" }
+```
+
 # Usage
 
 For more examples check the [examples](https://github.com/gnussy/prepucio/tree/main/examples) folder.
