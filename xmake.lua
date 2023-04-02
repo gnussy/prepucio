@@ -12,6 +12,7 @@ add_requires(table.unpack(libs))
 
 target("prepucio-lib")
   set_kind("static")
+  add_files("src/**/*.cpp")
   add_packages(table.unpack(libs))
 
 -- Define a function to get all files in a directory
