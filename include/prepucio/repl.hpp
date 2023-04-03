@@ -101,7 +101,11 @@ namespace prepucio {
       builder.emit_event(event_name, args);
     }
 
+    void emit(const std::string &event_name) { builder.emit_event(event_name, ""); }
+
     void run() { builder.run(); }
+
+    void prompt(const std::string &prompt) { builder.prompt(prompt); }
 
     void print_help() {
       std::cout << "Available commands:" << std::endl;
