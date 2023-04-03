@@ -11,6 +11,7 @@ namespace prepucio {
   class REPL {
   private:
     std::unordered_map<std::string, Command> commands;
+    std::unordered_map<std::string, Command> events;
     penis::PromptBuilder builder;
     tabulate::Table signatures;
 
@@ -18,6 +19,7 @@ namespace prepucio {
     class Builder {
     private:
       std::unordered_map<std::string, Command> commands;
+      std::unordered_map<std::string, Command> events;
 
     public:
       template <typename Func>
@@ -33,17 +35,33 @@ namespace prepucio {
         return *this;
       }
 
-      REPL build() { return REPL(this->commands); }
+      template <typename Func>
+      Builder &addEvent(const std::string &name, const std::string &description, Func &&func) {
+        events.emplace(name, Command{name, description, std::forward<Func>(func)});
+        return *this;
+      }
+
+      template <typename Func, typename Object> Builder &addEvent(const std::string &name,
+                                                                  const std::string &description,
+                                                                  Func &&func, Object *object) {
+        events.emplace(name, Command{name, description, std::forward<Func>(func), object});
+        return *this;
+      }
+
+      REPL build() { return REPL(this->commands, this->events); }
     };
 
-    REPL(std::unordered_map<std::string, Command> commands) : commands(std::move(commands)) {
+    REPL(std::unordered_map<std::string, Command> commands,
+         std::unordered_map<std::string, Command> events)
+        : commands(std::move(commands)), events(std::move(events)) {
       signatures.add_row({"Command", "Description", "Arguments"});
       for (const auto &[name, command] : this->commands) {
         signatures.add_row({name, command.get_description(), command.get_signature()});
       }
 
       builder.prompt("❯ ");
-      builder.subscribe([this](const std::string &input) { deal_with_command(input); });
+      builder.subscribe_command([this](const std::string &input) { deal_with_command(input); });
+      builder.subscribe_event([this](const std::string &input) { deal_with_event(input); });
     }
 
     void deal_with_command(const std::string &input) {
@@ -62,6 +80,24 @@ namespace prepucio {
       } else {
         std::cerr << "Error: unknown command '" << command << "'" << std::endl;
       }
+    }
+
+    void deal_with_event(const std::string &input) {
+      std::vector<std::string> tokens = utils::split(input);
+      if (tokens.empty()) return;
+
+      std::string event_name = tokens[0];
+      tokens.erase(tokens.begin());
+
+      if (auto it = events.find(event_name); it != events.end()) {
+        it->second.call(tokens);
+      } else {
+        std::cerr << "Error: unknown event '" << event_name << "'" << std::endl;
+      }
+    }
+
+    void emit(const std::string &event_name, const std::string &args) {
+      builder.emit_event(event_name, args);
     }
 
     void run() { builder.run(); }
