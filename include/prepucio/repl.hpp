@@ -49,6 +49,7 @@ namespace prepucio {
       }
 
       REPL build() { return REPL(this->commands, this->events); }
+      REPL *build_ptr() { return new REPL(this->commands, this->events); }
     };
 
     REPL(std::unordered_map<std::string, Command> commands,
