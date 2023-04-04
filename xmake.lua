@@ -1,5 +1,5 @@
 set_project("prepucio")
-set_version("1.1.0")
+set_version("1.1.1")
 set_xmakever("2.7.0")
 
 set_languages("c++20")

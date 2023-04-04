@@ -1,5 +1,6 @@
 #pragma once
 
+#include <memory>
 #include <penis/penis.hpp>
 #include <prepucio/command.hpp>
 #include <prepucio/utils/string.hpp>
@@ -48,7 +49,7 @@ namespace prepucio {
         return *this;
       }
 
-      REPL build() { return REPL(this->commands, this->events); }
+      std::unique_ptr<REPL> build() { return std::make_unique<REPL>(this->commands, this->events); }
       REPL *build_ptr() { return new REPL(this->commands, this->events); }
     };
 
@@ -106,6 +107,8 @@ namespace prepucio {
     void run() { builder.run(); }
 
     void prompt(const std::string &prompt) { builder.prompt(prompt); }
+
+    penis::PromptBuilder *show_penis() { return &(this->builder); }
 
     void print_help() {
       std::cout << "Available commands:" << std::endl;

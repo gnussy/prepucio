@@ -5,17 +5,14 @@
 auto main() -> int {
   prepucio::REPL::Builder builder;
 
-  // clang-format off
-  prepucio::REPL repl = builder
-    .addCommand("hello", "Prints hello world", 
-      [&repl]() { repl.emit("event", "1 hello"); })
-    .addEvent("event", "Prints the event", 
-      [](int a, std::string b) { fmt::print("Event: {}, {}\n", a, b); }
-    )
-    .build();
-  // clang-format off
+  prepucio::REPL *repl
+      = builder.addCommand("hello", "Prints hello world", [&repl]() { repl->emit("event"); })
+            .addEvent("event", "Prints the event",
+                      [&repl]() { repl->show_penis()->prompt("New prompt: "); })
+            .build_ptr();
 
-  repl.run();
+  repl->prompt("main> ");
+  repl->run();
 
   return 0;
 }
